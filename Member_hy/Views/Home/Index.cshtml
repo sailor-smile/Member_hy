@@ -1,0 +1,143 @@
+﻿<script type='text/javascript'>
+    __system_navigation_config.currentNav = __system_navigation_config.nav.home_index;
+</script>
+<div class="page-content">
+    <div class="page-header col-xs-12" style="line-height:30px;">
+        <h1 style="display:inline-block;" class="col-xs-7">
+            会员管理
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+                会员信息管理
+            </small>
+        </h1>
+        <div class="pull-right">
+            <a href="/Home/Create" class="btn btn-info btn-sm"><i class="ace-icon glyphicon glyphicon-plus"></i>添加会员</a>
+        </div>
+    </div><!-- /.page-header -->
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <div class="col-xs-12 page-header-top">
+                <div id="page_alert_container"></div>
+            </div>
+
+            <form class="form-horizontal" id="form_query">
+                <div class="row">
+                    <div class="col-sm-4 col-xs-4">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label no-width" for="q-dept">电话:</label>
+                            <div class="col-sm-9 col-xs-9">
+                               <input type="text" id="hyphone"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3 col-xs-3">
+                        <div class="form-group">
+                            @*<label class="col-xs-3 control-label no-width">姓:</label>
+                            <div class="col-xs-6">
+                                <input type="text" id="huiyhao" />
+                            </div>*@
+                            @*<div class="col-xs-1 no-width" style="padding-top: 7px;margin:0 -12px;">至</div>
+                        <div class="col-xs-4">
+                            <input type="text" id="endTime" class="form-control" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                        </div>*@
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-xs-1">
+                        <div class="form-group">
+                            <div class="controls">
+                                <button id="sousuo" type="button" class="btn btn-sm btn-primary">搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="dataList" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="center">会员号</th>
+                            <th class="center">姓名</th>
+                            <th class="center">性别</th>
+                            <th class="center">会员类型</th>
+                            <th class="center">会员电话</th>
+                            <th class="center">会员生日</th>
+                            <th class="center">会员备注</th>
+                            <th class="center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="row">
+                    <div class="col-xs-6" id="pageTotalRecord"></div>
+                    <div class="col-xs-6">
+                        <div class="pagination dataTables_paginate paging_bootstrap" id="paginationContainer"></div>
+                    </div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+
+    <script id="listTpl" type="text/x-jquery-tmpl">
+        <tr>
+
+            <td class="center" width="10%">${clubId}</td>
+            <td class="center" width="6%">${clubname}</td>
+            <td class="center" width="6%">
+                {{if cSex==1}}
+                男
+                {{else cSex==0}}
+                女
+                {{/if}}
+            </td>
+            <td class="center" width="6%">${cType}</td>
+            <td class="center" width="17%"style="color: blue">${cMobile}</td>
+            <td class="center" width="10%" id="birthday">${cBirthdaystr}</td>
+            <td class="center" width="30%">
+                ${cRemarks}
+            </td>
+            <td class="center" width="15%">
+                <div class="hidden-sm hidden-xs btn-group">
+                    <a href="#" class="btn btn-xs btn-info opt-chakan" ref="${clubId}">
+                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                        查看卡
+                    </a>
+                    <a href="#" class="btn btn-xs btn-warning opt-xiugai" ref="${clubId}">
+                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                        修改信息
+                    </a>
+                    <a class="btn btn-xs btn-danger opt-del" ref="${clubId}">
+                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                        删除
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </script>
+    <script src="~/js/plugins/moment/moment-with-locales.js"></script>
+    <script src="~/js/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script src="~/js/pageScripts/Home/Index.js"></script>
+    <script>
+      
+        var myDate = $("#birthday").text();
+        var timeing = myDate.substring(0, 10)
+        $("#birthday").text(timeing);
+              //当前时间
+            //$(function () {
+            //    var myDate = new Date;
+            //    var year = myDate.getFullYear(); //获取当前年
+            //    var mon = myDate.getMonth() + 1; //获取当前月
+            //    var date = myDate.getDate(); //获取当前日
+            //    var timeing = year + "-" + mon + "-" + date
+            //    $("#stDate1").attr("value", timeing);
+            //});
+    </script>

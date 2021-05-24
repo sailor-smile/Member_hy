@@ -1,0 +1,80 @@
+﻿#daying>* {
+    padding: 0;
+    margin: 0;
+}
+
+#daying>h1 {
+    font-size: 20px;
+}
+
+#daying > h3 {
+    font-size: 16px;
+}
+
+#daying > left {
+    float: left;
+}
+
+#daying > right {
+    float: right;
+}
+
+#daying > clearfix {
+    clear: both;
+}
+
+#daying > ul {
+    list-style: none;
+}
+
+#daying > print_container {
+    padding: 20px;
+    width: 188px;
+}
+
+#daying > section1 label {
+    display: block;
+}
+
+#daying > section2 label {
+    display: block;
+}
+
+#daying > section3 label {
+    display: block;
+}
+
+#daying > section4 {
+}
+
+    #daying > section4 .total label {
+        display: block;
+    }
+
+    #daying > section4 .other_fee {
+        border-bottom: 1px solid #DADADA;
+    }
+
+#daying > section5 label {
+    display: block;
+}
+@page {
+    size: auto; /* auto is the initial value */
+   margin:0 0 0 0px;/*页面的编剧*/
+}
+
+div > table > tr > td {
+ font-weight :700;font-size:5px;
+}
+div > label {
+    font-weight: 700;
+    font-size: 5px;
+}
+div > span  {
+    font-weight: 700;
+    font-size: 5px;
+}
+#dayin{
+    font-family:"微软雅黑";
+
+}

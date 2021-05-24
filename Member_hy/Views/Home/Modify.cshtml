@@ -1,0 +1,141 @@
+﻿
+<style>
+    th {
+        text-align: center;
+    }
+
+    .no-width {
+        width: auto !important;
+    }
+
+    .page-header-top {
+        padding: 1px;
+    }
+
+    #show {
+        font-size: 24px;
+        color: #4213C9;
+        text-align: center;
+    }
+</style>
+
+<div class="page-content">
+    <div class="page-header col-xs-12" style="line-height:30px;">
+        <h1 style="display:inline-block;" class="col-xs-7">
+            会员信息修改
+        </h1>
+        <div class="pull-right">
+            <a href="/Home/Index" class="btn btn-info btn-sm">返回</a>
+        </div>
+    </div><!-- /.page-header -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <div class="col-xs-12 page-header-top">
+                <div id="page_alert_container"></div>
+            </div>
+
+
+
+            <div class="tab-content">
+                <div id="his" class="tab-pane fade active in">
+                    <div class="clearfix">
+                        <div class="pull-left tableTools-container">
+
+
+
+                            @*<div class="dt-buttons btn-overlap btn-group " style="margin-left:960px;">
+                                    <span class="">
+                                        当前时间：<b id="show"></b>
+                                    </span>
+                                </div>*@
+
+                        </div>
+                    </div>
+                    <div class="table-header">
+                        信息录入修改区域
+                    </div>
+                    <input type="hidden" id="xid" value="@(ViewData["xid"])" />
+                    <table id="indexTabHead" class="table  table-bordered table-hover"></table>
+                    <table id="indexTab" class="table  table-bordered table-hover">
+                        <thead>
+                            <tr align="center">
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>会员类型</th>
+                                <th>会员电话</th>
+                                <th>会员生日</th>
+                                <th>会员备注</th>
+                                @*<th>是否密闭</th>
+                                <th>是否办理有效处置证</th>
+                                <th>运输公司名称</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr align="center">
+                                <td width="10%"><input type="text"  id="cname"/></td>
+                                <td width="10%" align="center" style="border-color: #e1e1e1; "><select id="xbie" class="opt6" style="border-color: #e1e1e1; width:100%"><option text="0" value="0">女</option><option text="1" value="1">男</option></select></td>
+                                <td width="10%" align="center" style="border-color: #e1e1e1;"><select id="huiylx" class="opt6" style="border-color: #e1e1e1; width:100%"><option text="0" value="0">普通会员</option><option text="1" value="1">次卡会员</option></select></td>
+                                <td width="10%" align="center" style="border-color: #e1e1e1;"><input type="text" id="hydh" /></td>
+                                <td  align="center" width="10%"><input id="hyrs"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="" required /></td>
+                                <td width="50%"><input  id="hybz" style="width:100%"  type="text"/></td>
+                                @*<td align="center">   <select id="airtight" class="opt6" style="border-color: #e1e1e1;"><option text="0" value="0">是</option><option text="1" value="1">否</option></select></td>
+                                <td align="center">
+                                    <select id="certificate" class="opt7" style="border-color: #e1e1e1;width: 100%;">
+                                        <option text="" value=""> </option>
+                                        <option text="0" value="0"> 是</option>
+                                        <option text="1" value="1">否</option>
+                                    </select>
+                                </td>
+                                <td align="center" style="border-color: #e1e1e1;width: 15%;">  <select id="transportcompanyName" class="opt8" style="border-color: #e1e1e1;width:90%;">   <option text="" value=""> </option><option text="0" value="0">营润</option> <option text="1" value="1">禹程</option><option text="2" value="2">勤顺</option><option text="3" value="3">健徽</option> <option text="4" value="4"> 世滨</option><option text="5" value="5">陆通</option><option text="6" value="6">普环</option><option text="7" value="7">明路</option><option text="8" value="8">儒林</option></select></td>*@
+                            </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix form-actions" id="option">
+                        <div class="col-md-offset-5 col-md-6">
+                            <button class="btn btn-info" type="button" id="btnSave">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                修改
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div><!-- /.page-content -->
+@*<div id="mes8" class="hide">
+        <span>
+
+        </span>
+    </div>*@
+
+@*<div id="operators" class="hide">
+        <span>
+            <select class="opt2" style="border-color: #e1e1e1;width:90%;" >
+                <option text="" value="">--请选择运算符--</option>
+                <option text="0" value="0">大于等于</option>
+                <option text="1" value="1">小于等于</option>
+            </select>
+        </span>
+    </div>*@
+<div id="delTd" class="hide">
+    <div class="action-buttons" style="margin-top:7px;">
+        <a class="red opt-del" title="删除">
+            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+        </a>
+    </div>
+</div>
+<script src="~/js/plugins/moment/moment-with-locales.js"></script>
+<script src="~/js/plugins/My97DatePicker/WdatePicker.js"></script>
+<script src="~/js/pageScripts/Home/modify.js"></script>
+

@@ -1,0 +1,355 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="~/images/huiyuan.png" type="image/x-icon">
+    <title>会员管理平台</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="~/framework/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/framework/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="~/framework/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="~/framework/css/framework.min.css" class="fw-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="~/framework/css/framework-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="~/framework/css/framework-skins.min.css" />
+    <link rel="stylesheet" href="~/framework/css/framework-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="~/framework/css/framework-ie.min.css" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="~/framework/js/framework-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="~/framework/js/html5shiv.min.js"></script>
+    <script src="~/framework/js/respond.min.js"></script>
+    <![endif]-->
+    <!--[if !IE]> -->
+    <script src="~/framework/js/jquery-2.1.4.min.js"></script>
+    <!-- <![endif]-->
+    <!--[if IE]>
+    <script src="~/framework/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    <script src="~/js/plugins/jquery.tmpl.min.js"></script>
+    <link rel="stylesheet" href="~/css/_base.css" />
+    <script src="~/js/_base.js"></script>
+    <script src="~/js/plugins/hashMap.js"></script>
+    <style type="text/css">
+        th {
+            text-align: center;
+        }
+
+        .no-width {
+            width: auto !important;
+        }
+
+        .page-header-top {
+            padding: 1px;
+        }
+    </style>
+    <script>
+        var __system_navigation_config = {
+            "nav": {
+                "home_index": "/Home/Index",
+                "idCard_Index": "/IdCard/Index",
+                "consumption_index":"/Consumption/Index"
+            },
+            "currentNav": "/"
+        };
+    </script>
+</head>
+
+<body class="no-skin">
+    <div id="navbar" class="navbar navbar-default ace-save-state hide">
+        <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="navbar-header pull-left">
+                <a href="#" class="navbar-brand">
+                    <small>
+                        @*<i class="fa fa-leaf"></i>*@
+                       会员管理平台
+                    </small>
+                </a>
+            </div>
+            <input type="hidden" id="suid" value="@ViewData["uid"]" />
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+
+                    <li class="light-blue dropdown-modal">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <img class="nav-user-photo" src="~/framework/images/avatars/user.jpg" alt="Jason's Photo" />
+                            <span class="user-info">
+                                <small>欢迎,您</small>
+                                @ViewData["realName"]
+                            </span>
+
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <li>
+                                <a href="#" id="upPassword" data-toggle="modal" data-target="#upPwdModal">
+                                    <i class="ace-icon fa fa-cog"></i>
+                                    修改密码
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/Login/Login">
+                                    <i class="ace-icon fa fa-power-off"></i>
+                                    登出
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.navbar-container -->
+    </div>
+
+    <div class="modal fade" id="upPwdModal" tabindex="-1" role="dialog" aria-labelledby="修改密码" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="upPwdModalLb">修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="oldPwd"> 原始密码 </label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" id="oldPwd" placeholder="请输入原始密码" class="col-xs-10 col-sm-8">
+                                    </div>
+                                </div>
+                                <div class="space-4"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="newPwd"> 新密码 </label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" id="newPwd" placeholder="请输入新密码" class="col-xs-10 col-sm-8">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="upPwdBtn">提交</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try { ace.settings.loadState('main-container') } catch (e) { }
+        </script>
+
+        <div id="sidebar" class="sidebar responsive ace-save-state">
+            <script type="text/javascript">
+                try { ace.settings.loadState('sidebar') } catch (e) { }
+            </script>
+            @*<input type="hidden" id="suid" value="@Html.Encode(ViewData["uid"])" />*@
+            <ul class="nav nav-list" id="menu-list">
+                @*@await Component.InvokeAsync("Menu")*@
+                <li class="open">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon glyphicon glyphicon-user"></i>
+                        <span class="menu-text"> 会员管理 </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu nav-show" style="display: block;">
+                        <li class="">
+                            <a href="/IdCard/Index">
+                                <!--务必加/-->
+                                <i class="menu-icon fa fa-pencil orange"></i>
+                                会员卡管理
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Home/Index">
+                                <!--务必加/-->
+                                <i class="menu-icon fa fa-leaf green"></i>
+                                会员信息管理
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+
+
+                        @*<li class="open">
+            <a href="/IdCard/Index" class="dropdown-toggle">
+                <i class="menu-icon fa fa-pencil orange"></i>
+                会员卡管理
+                <b class="arrow"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu nav-show" style="display: block;">
+                <li class="">
+                    <a href="/IdCard/Index">
+                        <i class="menu-icon fa fa-plus purple"></i>
+                        会员卡信息
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="/Consumption/Index">
+                        <i class="menu-icon fa fa-eye pink"></i>
+                        会员卡流水信息
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>*@
+                    </ul>
+
+                </li><!--第一个模块over-->
+
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-bar-chart-o"></i>
+                        <span class="menu-text"> 消费管理 </span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+
+                        <li class="">
+                            <a href="/Consumption/Index">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                消费信息记录
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul><!-- /.nav-list -->
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="breadcrumbs ace-save-state" id="breadcrumbs"></div>
+
+                <div class="page-content">
+
+                    @RenderBody()
+
+                </div><!-- /.page-content -->
+            </div>
+        </div><!-- /.main-content -->
+
+        <div class="footer">
+            <div class="footer-inner">
+                <div class="footer-content">
+                    <span class="bigger-120">
+                        <span class="blue bolder">技术支持 : 上海鳌泰信息技术有限公司 </span>
+                        &copy; 2020
+                    </span>
+
+                    &nbsp; &nbsp;
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div><!-- /.main-container -->
+    <!-- basic scripts -->
+
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script src='~/framework/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="~/framework/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <!-- ace scripts -->
+    <script src="~/framework/js/framework-elements.min.js"></script>
+    <script src="~/framework/js/framework.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="~/js/pageScripts/menu.js"></script>
+
+    <script type="text/javascript">
+
+        jQuery(function () {
+            $('#upPwdBtn').on('click', function () {
+                _updatePwd();
+            });
+
+            function _updatePwd() {
+                jQuery.ajax({
+                    dataType: "json",
+                    url: "/User/UpdatePwd",
+                    data: { "pwd": $('#newPwd').val() },
+                    type: "POST",
+                    success: function (result) {
+                        if (result.code == 1) {
+                            alert('修改成功');
+                            $('#upPwdModal').modal('hide');
+                        } else {
+                            alert('修改失败');
+                        }
+                    },
+                    beforeSend: function () { },
+                    error: function () {
+                        alert('程序出错');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+

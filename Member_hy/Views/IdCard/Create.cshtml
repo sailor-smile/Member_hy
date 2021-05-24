@@ -1,0 +1,183 @@
+﻿   
+<style>
+    th {
+        text-align: center;
+    }
+
+    .no-width {
+        width: auto !important;
+    }
+
+    .page-header-top {
+        padding: 1px;
+    }
+
+    #show {
+        font-size: 24px;
+        color: #4213C9;
+        text-align: center;
+    }
+</style>
+
+<div class="page-content">
+    <div class="page-header col-xs-12" style="line-height:30px;">
+        <h1 style="display:inline-block;" class="col-xs-7">
+           会员卡信息录入
+        </h1>
+        <div class="pull-right">
+            @*<input type="hidden" id="clubid" value="@(ViewData["clubid"])" />*@
+            <a href="javascript:history.go(-1)" class="btn btn-info btn-sm">返回</a>
+        </div>
+    </div><!-- /.page-header -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <div class="col-xs-12 page-header-top">
+                <div id="page_alert_container"></div>
+            </div>
+
+
+
+            <div class="tab-content">
+                <div id="his" class="tab-pane fade active in">
+                    <div class="clearfix">
+                        <div class="pull-left tableTools-container">
+                            <div class="dt-buttons btn-overlap btn-group">
+                                <a class="dt-button buttons-collection buttons-colvis btn btn-white btn-primary btn-bold" id="addRow">
+                                    <i class="fa fa-plus bigger-110 blue"></i>
+                                    添加行
+                                </a>
+                            </div>
+
+
+
+
+                        
+
+
+                            @*<div class="dt-buttons btn-overlap btn-group " style="margin-left:960px;">
+                                    <span class="">
+                                        当前时间：<b id="show"></b>
+                                    </span>
+                                </div>*@
+
+                        </div>
+                    </div>
+                    <div class="table-header">
+                        信息录入添加区域
+                    </div>
+
+                    <table id="indexTabHead" class="table  table-bordered table-hover"></table>
+                    <table id="indexTab" class="table  table-bordered table-hover">
+                        <thead>
+                            <tr align="center">
+                                <th>卡号</th>
+                                <th>卡类型</th>
+                                <th>售卡人</th>
+                                <th>卡折扣</th>
+                                <th>售卡时间</th>
+                                <th>卡内余额</th>
+                                @*<th>期限</th>*@
+                                <th>次数</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <div class="clearfix form-actions" id="option">
+                        <div class="col-md-offset-5 col-md-6">
+                            <button class="btn btn-info" type="button" id="btnSave1">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                提交
+                            </button>
+
+                            &nbsp; &nbsp; &nbsp;
+                            <button class="btn" type="button" id="resetBtn">
+                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                重置
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div><!-- /.page-content -->
+@*<div id="mes8" class="hide">
+        <span>
+
+        </span>
+    </div>*@
+
+@*<div id="operators" class="hide">
+        <span>
+            <select class="opt2" style="border-color: #e1e1e1;width:90%;" >
+                <option text="" value="">--请选择运算符--</option>
+                <option text="0" value="0">大于等于</option>
+                <option text="1" value="1">小于等于</option>
+            </select>
+        </span>
+    </div>*@
+<div id="delTd" class="hide">
+    <div class="action-buttons" style="margin-top:7px;">
+        <a class="red opt-del" title="删除">
+            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+        </a>
+    </div>
+</div>
+<link rel="stylesheet" href="~/framework/css/bootstrap-timepicker.min.css" />
+<script src="~/js/plugins/moment/moment-with-locales.js"></script>
+<script src="~/js/plugins/My97DatePicker/WdatePicker.js"></script>
+<script src="~/js/pageScripts/IdCard/create.js"></script>
+
+@*<script>
+        $('#stDate3').timepicker({
+            defaultTime: '00:00',
+            showInputs: true,
+            minuteStep: 1,
+            showMeridian: false,
+            maxHours: 24,
+        });
+    </script>*@
+<script>
+        //$(function () {
+        //    var myDate = new Date;
+        //    var year = myDate.getFullYear(); //获取当前年
+        //    var mon = myDate.getMonth() + 1; //获取当前月
+        //    var date = myDate.getDate(); //获取当前日
+        //    var timeing = year + "-" + mon + "-" + date
+        //    $("#stDate1").attr("value", timeing);
+        //});
+</script>
+<script>
+        //var timer = null;
+        //function displayClock(num) {//num是传入的startClock中的动态值
+        //    if (num < 10) {
+        //        return "0" + num;
+        //    }
+        //    else {
+        //        return num;
+        //    }
+        //}
+        ////停止计时
+        //function stopClock() {
+        //    clearTimeout(timer);
+        //}
+        ////开始计时
+        //function startClock() {
+        //    var time = new Date();
+        //    var hours = displayClock(time.getHours()) + ":";
+        //    var minutes = displayClock(time.getMinutes()) + ":";
+        //    var seconds = displayClock(time.getSeconds());
+        //    //显示时间
+        //    show.innerHTML = hours + minutes + seconds;//在id为show的块区域显示
+        //    timer = setTimeout("startClock()", 1000);//延时器
+        //}
+</script>
+
+

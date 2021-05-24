@@ -1,0 +1,51 @@
+
+.form-control-w3l textarea{
+    outline: none;
+    width: 100%;
+    color: #fff;
+    font-size: 15px;
+    padding: .7em 1em .8em 0em;
+    border: none;
+    border-bottom: 1px solid #fff;
+    margin: 0px 0px 16px;
+    display: inline-block;
+    background: none;
+    letter-spacing: 2px;
+    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    box-sizing: border-box;
+}
+.form-control-w3l textarea {
+    height:9em;
+    overflow: hidden;
+    resize: none;
+}
+
+
+.form-control-w3l textarea{
+    margin: 0px 0px 13px;	
+}
+
+.form-control-w3l textarea {
+    height: 8em;
+}
+
+
+@media(max-width:800px) {
+    .form-control-w3l textarea {
+        height: 7em;
+    }
+}
+
+    @media(max-width:640px) {
+        .form-control-w3l textarea {
+            height: 6em;
+        }
+    }
+.form-control-w3l textarea {
+    margin: 0px 0px 8px;
+}	
+

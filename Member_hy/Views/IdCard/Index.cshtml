@@ -1,0 +1,869 @@
+﻿<script type='text/javascript'>
+    __system_navigation_config.currentNav = __system_navigation_config.nav.idCard_Index;
+</script>
+<style>
+    .table {
+        /*此元素会作为块级表格来显示（类似 <table>），表格前后带有换行符。*/
+        display: table;
+        /*border-collapse:collapse;*/
+        border-collapse: separate;
+        border: 1px #DDDDDD;
+    }
+
+    .table-caption {
+        /*此元素会作为一个表格标题显示（类似 <caption>）*/
+        display: table-caption;
+        margin: 0;
+        font-size: 16px;
+    }
+
+    .table-header-group {
+        /*此元素会作为一个或多个行的分组来显示（类似 <thead>）。*/
+        display: table-header-group;
+        background: #eee;
+        font-weight: bold;
+    }
+
+    .table-row-group {
+        /*此元素会作为一个或多个行的分组来显示（类似 <tbody>）。*/
+        display: table-row-group;
+    }
+
+    .table-footer-group {
+        /*此元素会作为一个或多个行的分组来显示（类似 <tfoot>）。*/
+        display: table-footer-group;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .table-row {
+        /*此元素会作为一个表格行显示（类似 <tr>）。*/
+        display: table-row;
+    }
+
+    .table-cell {
+        /*此元素会作为一个表格单元格显示（类似 <td> 和 <th>）*/
+        display: table-cell;
+        padding: 0 5px;
+        border: 1px #DDDDDD;
+    }
+
+    .table-row-group .table-row:hover,
+    .table-footer-group .table-row:hover {
+        background: #f6f6f6;
+        color: green;
+        font-weight: bold;
+    }
+
+    .table-column-group {
+        /*此元素会作为一个或多个列的分组来显示（类似 <colgroup>）。*/
+        display: table-column-group;
+    }
+
+    .table-column {
+        /*此元素会作为一个单元格列显示（类似 <col>）*/
+        display: table-column;
+        width: 100px;
+    }
+</style>
+<div class="page-header col-xs-12" style="line-height:30px;">
+    <h1 style="display:inline-block;" class="col-xs-3">
+        会员信息
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            会员卡管理
+        </small>
+    </h1>
+
+    <div class="col-sm-2 col-xs-2">
+        <input type="text" id="MembershipCardNumber" class="form-control" >
+        
+    </div>
+    <div class="col-sm-2 col-xs-2">
+        <button id="QueryButton" type="button" class="btn btn-sm btn-primary">查询</button>
+    </div>
+        @*<div class="">
+                <p>当前查看的是${clubname}用户</p>
+            </div>*@
+
+
+        <div class="pull-right">
+            <a id="tjk" class="btn btn-info btn-sm"><i class="ace-icon glyphicon glyphicon-plus"></i>添加卡</a>
+        </div>
+        <div class="pull-right" style="margin-right:20px;">
+            <a href="/Home/Index" class="btn btn-info btn-sm"><i class="ace-icon fa fa-reply icon-only"></i> 返回</a>
+        </div>
+    </div><!-- /.page-header -->
+    <div class="col-xs-12 page-header-top">
+        <div id="page_alert_container"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <input type="hidden" id="dataId" value="@(ViewData["dataId"])" />
+             <input type="hidden" id="lid" value="@(ViewData["iid"])" />
+            <table id="dataList" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>卡号</th>
+                        <th>卡类型</th>
+                        <th>售卡人</th>
+                        <th>卡折扣</th>
+                        <th>售卡时间</th>
+                        <th>卡内余额</th>
+                        @*<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>期限</th>*@
+                        <th>次数</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="row">
+                <div class="col-xs-6" id="pageTotalRecord"></div>
+                <div class="col-xs-6">
+                    <div class="pagination dataTables_paginate paging_bootstrap" id="paginationContainer"></div>
+                </div>
+            </div>
+            @*<div class="row">
+            <div class="col-xs-6" id="pageTotalRecord"><div class="dataTables_info" role="status" aria-live="polite">共 1 页 19条记录，当前为第 1 页</div></div>
+            <div class="col-xs-6">
+                <div class="pagination dataTables_paginate paging_bootstrap" id="paginationContainer"><ul class="pagination pull-right"><li class="active"><a href="javascript:;" title="Current page is 1">1</a></li></ul></div>
+            </div>
+        </div>*@
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+
+
+    <script id="listTpl" type="text/x-jquery-tmpl">
+        <tr>
+            @*<td id="cname" hidden>${clubId}</td>*@
+            <td class="center" width="10%" style="color:black">${cCardId}</td>
+            <td class="center" width="10%" style="color:blue">${cardtype}</td>
+            <td class="center" width="10%">${collectiontype}</td>
+            <td class="center" width="5%">${cardseller}</td>
+            <td class="center" width="10%">${cUdeadlinestr}</td>
+            <td class="center" width="10%" style="color:red">${cdatring}</td>
+            @*<td class="center" width="10%" style="color:red">${cExpiretimestr}到期</td>*@
+            <td class="center" width="5%" style="color:red">${cFrequency}次</td>
+            <td class="center" width="30%">
+                <div class="hidden-sm hidden-xs btn-group">
+                    <a href="#" class="btn btn-xs btn-info opt-chakan" ref="${id}">
+                        查看消费菜单
+                    </a>
+                    <a id="" href="#" class="btn btn-xs  btn-pink liusuixx" ref="${cCardId}">
+                        <i class="ace-icon fa fa-gift"></i>
+                        消费信息
+                    </a>
+                    @*<a href="#" class="btn btn-xs btn-success" ref="${id}">
+                            <i class="ace-icon fa fa-coffee"></i>
+                            充值
+                        </a>*@
+                    <a href="#" class="btn btn-warning btn-xs updatexxc" ref="${cCardId}">
+                        @*<i class="ace-icon fa fa-wrench  bigger-110 icon-only"></i>*@
+                        充值&修改
+                    </a>
+                    <a class="btn btn-xs btn-grey opt-del" ref="${cCardId}">
+                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                        删除
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr class="detail-row">
+            <td colspan="10">
+                <div class="table-detail">
+                    <div class="table">
+                        <h2 class="table-caption" style="color:red">2021年价格表：</h2>
+                        <!--此行代码用于，控制列的样式。-->
+                        <div class="table-column-group">
+                            <div class="table-column" style=""></div>
+                            <div class="table-column" style=""></div>
+                            <div class="table-column" style=""></div>
+                            <div class="table-column"></div>
+                        </div>
+                        <!--如果不写上一个div, 也可以把样式写在以下div里。 -->
+                        <div class="table-header-group">
+                            <ul class="table-row">
+                                <li class="table-cell">
+                                    选择
+                                </li>
+                                <li class="table-cell">项目</li>
+                                <li class="table-cell">时间段</li>
+                                <li class="table-cell">价格</li>
+                            </ul>
+                        </div>
+                        <div class="table-row-group gogo" id="">
+                            @*<h3 style="font-weight:700">中式项目</h3>
+        <h4>采耳系列</h4>
+        <ul class="table-row " style="">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">安悦专业采耳 45分钟</li>
+            <li class="table-cell">188</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">招牌采耳 60分钟</li>
+            <li class="table-cell">258</li>
+        </ul>
+        <h4>放松系列</h4>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">头部养心放松 30分钟</li>
+            <li class="table-cell">158</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">头部养心放松 45分钟</li>
+            <li class="table-cell">188</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">瑜伽背部放松 30分钟</li>
+            <li class="table-cell">158</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">瑜伽背部放松 45分钟</li>
+            <li class="table-cell">188</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">瑜伽舒缓松腿 30分钟</li>
+            <li class="table-cell">158</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">瑜伽舒缓松腿 45分钟</li>
+            <li class="table-cell">188</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">末梢放松 30分钟</li>
+            <li class="table-cell">158</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">末梢放松 45分钟</li>
+            <li class="table-cell">188</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">经典中式推拿 10:00-14:00 60分钟</li>
+            <li class="table-cell">178</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">经典中式推拿 14:00-02:00 60分钟</li>
+            <li class="table-cell">198</li>
+        </ul>
+        <h4>SPA系列</h4>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">芳香全体SPA 10:00-14:00 90分钟</li>
+            <li class="table-cell">378</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">芳香全体SPA 14:00-02:00 90分钟</li>
+            <li class="table-cell">398</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">芳香背部SPA 45分钟</li>
+            <li class="table-cell">198</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">芳香背部SPA 60分钟</li>
+            <li class="table-cell">258</li>
+        </ul>
+        <h4>套餐系列</h4>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">安悦专业采耳+瑜伽局部放松 10:00-14:00 90分钟</li>
+            <li class="table-cell">348</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">安悦专业采耳+瑜伽局部放松 14:00-02:00 90分钟</li>
+            <li class="table-cell">368</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">安悦专业采耳+末梢放松 10:00-14:00 90分钟</li>
+            <li class="table-cell">348</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">安悦专业采耳+末梢放松 14:00-02:00 90分钟</li>
+            <li class="table-cell">368</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">安悦专业采耳+芳香背部SPA 10:00-14:00 90分钟</li>
+            <li class="table-cell">358</li>
+        </ul>
+        <ul class="table-row ">
+            <li class="table-cell">
+                <label class="pos-rel">
+                    <input type="checkbox" class="ace soso">
+                    <span class="lbl"></span>
+                </label>
+            </li>
+            <li class="table-cell">安悦专业采耳+芳香背部SPA 14:00-02:00 90分钟</li>
+            <li class="table-cell">368</li>
+        </ul>
+        <hr style="border:3px dotted #000 " />*@
+                            <h3 style="font-weight:700">泰式项目</h3>
+                            <h4>1h</h4>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1小时2015</li>
+                                <li class="table-cell">白</li>
+
+                                <li class="table-cell">258</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1小时2016</li>
+                                <li class="table-cell">白</li>
+
+                                <li class="table-cell">288</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1小时2018</li>
+                                <li class="table-cell">白</li>
+
+                                <li class="table-cell">308</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1小时2015</li>
+                                <li class="table-cell">夜</li>
+
+                                <li class="table-cell">288</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1小时2016</li>
+                                <li class="table-cell">夜</li>
+
+                                <li class="table-cell">368</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1小时2018</li>
+                                <li class="table-cell">夜</li>
+
+                                <li class="table-cell">388</li>
+                            </ul>
+                            <h4>1.5h</h4>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1.5小时2015</li>
+                                <li class="table-cell">白</li>
+                                <li class="table-cell">318</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1.5小时2016</li>
+                                <li class="table-cell">白</li>
+                                <li class="table-cell">388</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1.5小时2018</li>
+                                <li class="table-cell">白</li>
+                                <li class="table-cell">398</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1.5小时2015</li>
+                                <li class="table-cell">夜</li>
+                                <li class="table-cell">358</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1.5小时2016</li>
+                                <li class="table-cell">夜</li>
+                                <li class="table-cell">468</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式1.5小时2018</li>
+                                <li class="table-cell">夜</li>
+                                <li class="table-cell">488</li>
+                            </ul>
+                            <h4>2h</h4>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式2小时2015</li>
+                                <li class="table-cell">白</li>
+                                <li class="table-cell">368</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式2小时2016</li>
+                                <li class="table-cell">白</li>
+                                <li class="table-cell">488</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式2小时2018</li>
+                                <li class="table-cell">白</li>
+                                <li class="table-cell">498</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式2小时2015</li>
+                                <li class="table-cell">夜</li>
+                                <li class="table-cell">398</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式2小时2016</li>
+                                <li class="table-cell">夜</li>
+                                <li class="table-cell">568</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">泰式2小时2018</li>
+                                <li class="table-cell">夜</li>
+                                <li class="table-cell">588</li>
+                            </ul>
+                            <h4>草本按压芳香精油保健</h4>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">香薰精油60分2015</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">468</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">草本精油90分2018</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">988</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">草本90分2016</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">958</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">香薰精油90分2016</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">788</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">香薰精油90分2015</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">588</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">草本精油60分2015</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">688</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">香薰精油60分钟2016</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">588</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">芳香精油60分2018</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">618</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">草本精油90分2015</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">958</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">芳香精油90分2018</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">818</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">草本精油60分钟2016</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">788</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">草本泰式2小时2018</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">798</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">精油60分2018</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">618</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">精油90分2018</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">818</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">草本精油60分2018</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">818</li>
+                            </ul>
+                            <ul class="table-row ">
+                                <li class="table-cell">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace soso">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </li>
+                                <li class="table-cell">草本精油90分2018</li>
+                                <li class="table-cell"></li>
+
+                                <li class="table-cell">988</li>
+                            </ul>
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                    @*<a href="/Home/Index" class="btn btn-info btn-sm" style="margin-left:0px;">
+                            <i class="ace-icon fa fa-check bigger-110"></i>
+                            提交
+                        </a>*@
+                    <button class=" btn btn-sm btn-primary btn-white btn-round xmulx" type="button" ref="${cCardId}" red="${cardseller}" cda="${cda}" cis="${cFrequency}">
+                        提交菜单
+                        <i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+
+    </script>
+    <script src="~/js/plugins/moment/moment-with-locales.js"></script>
+    <script src="~/js/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script src="~/js/pageScripts/IdCard/Index.js"></script>
+    <script>
+            //promptDialog();
+            //function confirmDialog() {
+            //    if (confirm("还要继续吗？")) {
+            //        alert("继续");
+            //    } else {
+            //        alert("再见");
+            //    }
+            //}
+
+
+
+
+    </script>

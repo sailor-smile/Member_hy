@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>会员添加</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Home Loan Application Form Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
+    <script type="application/x-javascript">
+         addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+        function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="~/css/Create/style.css" type="text/css" media="all" /> <!-- Style-CSS -->
+    <link rel="stylesheet" href="~/css/Create/style1.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="~/css/Create/jquery-ui.css" />
+    <!-- //css files -->
+    <!-- web-fonts -->
+    <link href="//fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=GFS+Neohellenic:400,400i,700,700i&amp;subset=greek" rel="stylesheet">
+    <!-- //web-fonts -->
+    <style>
+    </style>
+</head>
+<body>
+    <div class="center-container">
+        <!--header-->
+        <div class="header-w3l">
+            <h1>添加会员</h1>
+        </div>
+        <!--//header-->
+        <!--main-->
+        <div class="agileits-register">
+         
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                    <span>姓名 :</span>
+                    <input id="rnames" type="text" name="Name" placeholder="请输入姓名" required="" autocomplete="off"/>
+                    <div class="clear"> </div>
+                </div>
+                <div class="w3_modal_body_grid" id="usex">
+                    <span>性别 :</span>
+                    <label class="radio"><input type="radio" name="radio" checked="" value="1"><i></i>男</label>
+                    <label class="radio"><input type="radio" name="radio" value="0"><i></i>女</label>
+                    <div class="clear"> </div>
+                </div>
+                @*<div class="w3_modal_body_grid">
+            <span>Email :</span>
+            <input type="email" name="Email" placeholder="Your E-mail" required="" />
+            <div class="clear"> </div>
+        </div>*@
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                    <span>电话号码 :</span>
+                    <input id="phonex" type="text" name="phone Number" placeholder="请输入电话号码" required="" autocomplete="off" />
+                    <div class="clear"> </div>
+                </div>
+
+
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                    <span> 会员类型 :</span>
+                    <select id="w3_country" onchange="change_country(this.value)" class="frm-field required">
+                        <option value="null">普通会员</option>
+                        <option value="null">砖石会员</option>
+                    </select>
+                    <div class="clear"> </div>
+                </div>
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                    <span>生日 :</span>
+                    <input class="date" id="datepicker" name="Text" type="text" value="" required="" />
+                    <div class="clear"> </div>
+                </div>
+                <div class="form-control-w3l">
+                    <textarea id="beiz" name="Message" placeholder="备 注..."></textarea>
+                </div>
+
+                <div class="w3_modal_body_grid">
+
+                    <input id="btnSave" type="submit" value="提交" />
+                    <input id="out" type="submit" value="返回" />
+                    <div class="clear"></div>
+                </div>
+         
+        </div>
+
+        <!--//main-->
+
+    </div>
+    <!--footer-->
+    <div class="footer">
+        <h2>&copy; 2020 技术支持 : 上海鳌泰信息技术有限公司 </h2>
+    </div>
+    <!--//footer-->
+    <!-- js -->
+    <script type="text/javascript" src="~/framework/js/jquery-2.1.4.min.js"></script>
+    <!-- //js -->
+    <!-- Calendar -->
+    <script src="~/framework/js/jquery-ui.min.js"></script>
+    <script src="~/js/pageScripts/Home/create.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+    </script>
+    <!-- //Calendar -->
+
+    <script>
+        $("#out").on("click", function () {
+
+            window.history.go(-1);
+
+        });
+
+
+    </script>
+</body>
+</html>

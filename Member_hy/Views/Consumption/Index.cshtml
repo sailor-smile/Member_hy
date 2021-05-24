@@ -1,0 +1,326 @@
+﻿<script type='text/javascript'>
+    __system_navigation_config.currentNav = __system_navigation_config.nav.consumption_index;
+</script>
+<div class="page-content">
+    <div class="page-header col-xs-12" style="line-height:30px;">
+        <h1 style="display:inline-block;" class="col-xs-7">
+            会员管理
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+                会员卡流水信息查询
+            </small>
+        </h1>
+        <div class="pull-right">
+            <input type="hidden" id="iid" value="@(ViewData["iid"])" />
+        </div>
+    </div><!-- /.page-header -->
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <div class="col-xs-12 page-header-top">
+                <div id="page_alert_container"></div>
+            </div>
+
+            <form class="form-horizontal" id="form_query">
+                <div class="row">
+                    <div class="col-sm-4 col-xs-4">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label no-width" for="q-dept">消费时间:</label>
+                            <div class="col-sm-8 col-xs-8">
+                                <input type="text" id="stDate" class="form-control" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3 col-xs-3">
+                        <div class="form-group">
+                            @*<label class="col-xs-3 control-label no-width">会员号:</label>
+                            <div class="col-xs-6">
+                                <input type="text" id="huiyhao" />
+                            </div>*@
+                            @*<div class="col-xs-1 no-width" style="padding-top: 7px;margin:0 -12px;">至</div>
+                                <div class="col-xs-4">
+                                    <input type="text" id="endTime" class="form-control" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-xs-1">
+                        <div class="form-group">
+                            <div class="controls">
+                                <button id="sousuo" type="button" class="btn btn-sm btn-primary">搜索</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1 col-xs-1" style="float:right">
+                        <div class="form-group">
+                            <div class="controls">
+                                <a id="fanhui" href="#" class="btn btn-sm btn-primary">返回</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <table id="dataList" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="center">流水号</th>
+                        <th class="center">会员卡号</th>
+                        <th class="center">项目名称</th>
+                        <th class="center">项目次数</th>
+                        <th class="center">项目时间</th>
+                        <th class="center">原卡余额</th>
+                        <th class="center">项目金额</th>
+                        <th class="center">折扣</th>
+                        <th class="center">消费金额</th>
+                        <th class="center">余额</th>
+                        <th class="center">剩余次数</th>
+                        <th class="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="row">
+                <div class="col-xs-6" id="pageTotalRecord"></div>
+                <div class="col-xs-6">
+                    <div class="pagination dataTables_paginate paging_bootstrap" id="paginationContainer"></div>
+                </div>
+            </div>
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div>
+@*打印模板*@
+<div hidden>
+    <div id="daying">
+    </div>
+
+</div>
+
+<script id="listTpl" type="text/x-jquery-tmpl">
+    <tr>
+
+        <td class="center" width="10%">${consumptioncode}</td>
+        <td class="center" width="5%">${cCardId}</td>
+        <td class="center" width="15%"> ${cItems}</td>
+        <td class="center" width="5%">${consum}</td>
+        <td class="center" width="10%" style="color: blue">${cDatestr}</td>
+        <td class="center qian" width="10%" style="color:red">${cdaStr}</td>
+        <td class="center xfje" width="5%">
+            ${pAmount}
+        </td>
+        <td class="center zkou" width="5%" style="color:red" >${discount}</td>
+        <td class="center yeqian" width="9%" style="color:red">
+            {{if discount!=0}}
+            ${cdpStr}
+            {{else}}
+            ${cdpStr}
+            {{/if}}
+        </td>
+        <td class="center yeqian" width="9%" style="color:red">
+            {{if discount!=0}}
+            ${cdaStr-cdpStr}
+            {{else}}
+            ${cdaStr-cdpStr}
+            {{/if}}
+        </td>
+        <td class="center" width="5%">
+            ${itemId}
+        </td>
+        <td class="center" width="16%">
+            <div class="hidden-sm hidden-xs btn-group">
+                <a class="btn btn-xs  optdayin" ref="${consumptioncode}">
+                    <i class="ace-icon fa fa-print bigger-120"></i>
+                    打印
+                </a>
+                @*<a  class="btn btn-xs btn-warning" ref="${clubId}">
+                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                    修改信息
+                </a>*@
+                <a class="btn btn-xs btn-danger opt-del" ref="${consumptioncode}">
+                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                    删除
+                </a>
+            </div>
+        </td>
+    </tr>
+</script>
+
+@*发票打印*@
+<script id="listTpl1" type="text/x-jquery-tmpl">
+    <div class="print_container">
+
+
+        <div style="text-align:center;font-size:15px; letter-spacing:2px;color:#333;height:15px;transform: scale(0.90);padding: 10px">
+            AN inner Spa
+        </div>
+        <div class="section1" style="transform: scale(0.8);line-height:13px; ">
+
+            <label style="font-weight: 500;
+    font-size: 2px;text-align:left">
+                NO:${consumptioncode}
+            </label>
+            <label style="font-weight: 500;
+    font-size: 2px;text-align:left">机号:安悦</label>
+
+            <table style="width: 100%;">
+                <thead>
+                    <tr>
+                        <td style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;text-align:left" width="60%">
+                            品项
+                        </td>
+                        <td style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;text-align:left" width="20%">
+                            数量
+                        </td>
+                        <td style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;text-align:left" width="20%">
+                            金额
+                        </td>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr style="line-height:20px; height:30px;">
+                        <td style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;">
+                            ${cItems}
+                        </td>
+                        <td style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;">
+                            ${consum}
+                        </td>
+                        <td style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;">
+                            ${pAmount}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="other_fee">
+                <div class="canh">
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="left">卡号:</label>
+                    &nbsp;
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="right">${cCardId}</label>
+                    @*<div class="clearfix"></div>*@
+                </div>
+                <div class="peis">
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="left">扣款金额:</label>
+                    &nbsp;
+                    <label style="font-weight: 500;
+    font-size: 2px;" class="right">
+                        ${pAmount}
+                    </label>
+                    @*<div class="clearfix"></div>*@
+                </div>
+                <div class="manj">
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="left">储值金额:</label>
+                    &nbsp;
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="right">${cda}</label>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="manj1">
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="left">剩余次数:</label>
+                    &nbsp;
+                    <label class="right" style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;">
+                        {{if (itemId-1)/2>=0}}
+                        ${itemId-1}
+                        {{else}}
+                        不限
+                        {{/if}}
+
+                    </label>
+                    @*<div class="clearfix"></div>*@
+                </div>
+
+                <div class="manj">
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="left">${cDatestr}</label>
+                    &nbsp;
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="right">收银员:安悦</label>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="manj">
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="left">地址：爱琴海创客空间1-A-331安悦健康</label>
+                    &nbsp;
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="right">电话：021-34050305</label>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="manj">
+                    <label style="font-weight: 500;-webkit-text-size-adjust: none;
+    font-size: 2px;" class="left">签名：</label>
+                    &nbsp;
+
+                    <div class="clearfix"></div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+        @*<div class="section2" style="transform: scale(0.833333); ">
+                    <label style="font-weight: 500;
+        font-size: 2px;text-align:left">结账时间：</label><label id="" style="font-weight: 500;
+            font-size: 2px;transform: scale(0.80)">${cDatestr}</label>
+
+                </div>*@
+
+        @*<div class="total">
+
+        </div>*@
+
+    </div>
+           
+
+            @*</div style="line-height:0px">*@
+           
+
+   
+
+
+
+</script>
+
+
+
+@*<link rel="stylesheet" href="~/js/pageScripts/Consumption/xiaopiao.css" />*@
+<script src="~/js/plugins/moment/moment-with-locales.js"></script>
+<script src="~/js/plugins/My97DatePicker/WdatePicker.js"></script>
+<script src="~/js/pageScripts/Consumption/index.js"></script>
+<script src="~/js/pageScripts/Consumption/jquery.jqprint-0.3.js"></script>
+<script>
+   
+
+</script>
+
+
